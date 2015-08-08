@@ -8,10 +8,31 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
+        <!-- account generator HTML -->
+        <h2>Generate Account</h2>
+        <p>Here you can generate an Ethereum account in browser, optionally you can encrypt the account private and public keys with a passphrase using AES encryption.</p>
+        <input type="text" placeholder="passphrase" id="new_passphrase"> 
+        <hr>
+        <button id="new">Generate Account</button>
+        <br>
+        <pre id="new_result"></pre>
+        
+        <br><br>
+        
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script src="js/vendor/bootstrap.min.js"></script>
         <script src="node_modules/ethereumjs-accounts/dist/ethereumjs-accounts.js"></script>
         <script src="js/index.js"></script>
+        <script>
+            var Accounts = new Accounts();
+            
+            Accounts.log = function(msg){console.log(msg);};
+            
+            var acountlength = Accounts.length;
+            
+            if Accounts.length > 0 {
+                Accounts.clear();
+            }
+        </script>
     </body>
 </html>
 
