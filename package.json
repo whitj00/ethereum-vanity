@@ -1,7 +1,7 @@
 {
   "name": "Ethereum-Vanity-Creator",
   "description": "Vanity address generator for ethereum",
-  "version": "0.1",
+  "version": "0.0.1",
   "keywords": [
     "ethereum"
   ],
@@ -15,17 +15,12 @@
   "dependencies": {
     "ethereumjs-accounts": "0.0.10"
   },
-  "repositories": [
+  "repository": [
     {
       "type": "git",
       "url": "https://github.com/whitj00/ethereum-vanity"
     }
   ],
-  "licenses": [
-    {
-      "name": "MIT",
-      "url": "http://opensource.org/licenses/MIT"
-    }
-  ]
+  "license": "MIT"
 }
 
