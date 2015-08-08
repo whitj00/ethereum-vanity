@@ -12,10 +12,12 @@
         <input type="text" placeholder="passphrase" id="passphrase"> 
         <input type="text" placeholder="phrase" id="phrase"> 
         <hr>
-        <div id="result"></div>
-        <hr>
+        <div id="result">Go ahead, press generate</div>
         <div id="tried"></div>
+        <hr>
         <a href="javascript:void(0);" onclick="vanityGen()">Generate Account</a>
+        <hr>
+        <p>DISCLAIMER: THIS IS IN-DEVELOPMENT SOFTWARE, AND MAY BE UNRELIABLE.  USE AT YOUR OWN RISK, DO NOT TRUST WITH ANYTHING BUT SMALL AMOUNTS OF ETHER.  DEVELOPERS ARE NOT LIABLE FOR ANY ISSUES ARISING FROM THIS OPEN SOURCE TOOL. </p>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
         <script src="node_modules/ethereumjs-accounts/dist/ethereumjs-accounts.js"></script>
         <script>
@@ -30,26 +32,27 @@
                 var phrase = $("#phrase").val();
                 var phraselen = phrase.length;
                 var str = phrase;
-                var hexlen = str.match(/[0-9A-Fa-f]+/g);
+                var hexmatch = str.match(/[0-9A-Fa-f]+/g);
                 var tried = 0;
-                if (hexlen == null) {
+                var i = 0;
+                if (hexmatch == null) {
                     alert("The phrase must only be 0-9 and A-F");
                     return;
                 }
                 do {
-                    $("#tried").text("Addresses tried: " + tried);
                     Accounts.clear();
                     var accountObject = Accounts.new(acctpass);
                     var addy = accountObject["address"];
                     var found = addy.substring(2, phraselen + 2);
-                    var i = 0;
                     if (found == phrase) {
                         i++;
                     }
                     tried++;
-                    sleepFor(0);
+                    //Uncomment this if you want to go easy on your machine
+                    //sleepFor(250);
                 }
                 while (i == 0);
+                $("#tried").text("Addresses tried: " + tried);
                 var prettyobj = JSON.parse(Accounts.export(), null, 2);
                 var prettyobjson = JSON.stringify(prettyobj, null, 2);
                 $("#result").text(prettyobjson);
