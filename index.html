@@ -8,29 +8,51 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
-        <!-- account generator HTML -->
         <h2>Generate Account</h2>
-        <p>Here you can generate an Ethereum account in browser, optionally you can encrypt the account private and public keys with a passphrase using AES encryption.</p>
-        <input type="text" placeholder="passphrase" id="new_passphrase"> 
+        <input type="text" placeholder="passphrase" id="passphrase"> 
+        <input type="text" placeholder="phrase" id="phrase"> 
         <hr>
-        <button id="new">Generate Account</button>
-        <br>
-        <pre id="new_result"></pre>
-        
-        <br><br>
-        
+        <div id="result"></div>
+        <hr>
+        <div id="tried"></div>
+        <a href="javascript:void(0);" onclick="vanityGen()">Generate Account</a>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
         <script src="node_modules/ethereumjs-accounts/dist/ethereumjs-accounts.js"></script>
-        <script src="js/index.js"></script>
         <script>
             var Accounts = new Accounts();
-            
-            Accounts.log = function(msg){console.log(msg);};
-            
             var acountlength = Accounts.length;
-            
-            if (Accounts.length > 0) {
-                Accounts.clear();
+            function sleepFor( sleepDuration ){
+                var now = new Date().getTime();
+                while(new Date().getTime() < now + sleepDuration){ /* do nothing */ } 
+            }
+            function vanityGen() {
+                var acctpass = $("#passphrase").val();
+                var phrase = $("#phrase").val();
+                var phraselen = phrase.length;
+                var str = phrase;
+                var hexlen = str.match(/[0-9A-Fa-f]+/g);
+                var tried = 0;
+                if (hexlen == null) {
+                    alert("The phrase must only be 0-9 and A-F");
+                    return;
+                }
+                do {
+                    $("#tried").text("Addresses tried: " + tried);
+                    Accounts.clear();
+                    var accountObject = Accounts.new(acctpass);
+                    var addy = accountObject["address"];
+                    var found = addy.substring(2, phraselen + 2);
+                    var i = 0;
+                    if (found == phrase) {
+                        i++;
+                    }
+                    tried++;
+                    sleepFor(0);
+                }
+                while (i == 0);
+                var prettyobj = JSON.parse(Accounts.export(), null, 2);
+                var prettyobjson = JSON.stringify(prettyobj, null, 2);
+                $("#result").text(prettyobjson);
             }
         </script>
     </body>
