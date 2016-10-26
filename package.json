@@ -13,7 +13,6 @@
     }
   ],
   "dependencies": {
-    "ethereumjs-accounts": "git+https://github.com/whitj00/ethereumjs-accounts.git"
   },
   "repository": [
     {
