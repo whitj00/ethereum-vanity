@@ -1,3 +1,5 @@
+# No longer works because of missing dependancies
+----
 # ethereum-vanity
 
 ----
